@@ -3,7 +3,7 @@ const router = express.Router();
 const mongoose = require('mongoose');
 const GiangVien = require('../models/GiangVien');
 const upload = require('../middlewares/upload');
-const { uploadToCloudinary } = require('../config/cloudinary');
+const { uploadToCloudinary, deleteFromCloudinary } = require('../config/cloudinary');
 
 /**
  * Helper to build search query by _id or IDGV
@@ -154,8 +154,14 @@ router.put('/:id', upload.single('image'), async (req, res, next) => {
 
     // If new image file is uploaded, upload to Cloudinary and update URL
     if (req.file) {
+      const oldImageUrl = existingGv.Image;
       const newImageUrl = await uploadToCloudinary(req.file.buffer);
       existingGv.Image = newImageUrl;
+
+      // Delete old image from Cloudinary to free up storage
+      if (oldImageUrl && oldImageUrl !== newImageUrl) {
+        deleteFromCloudinary(oldImageUrl);
+      }
     } else if (imageUrlText && imageUrlText.trim()) {
       existingGv.Image = imageUrlText.trim();
     }
@@ -186,6 +192,11 @@ router.delete('/:id', async (req, res, next) => {
         success: false,
         message: 'Không tìm thấy giảng viên để xóa!',
       });
+    }
+
+    // Delete image from Cloudinary when lecturer is deleted
+    if (deleted.Image) {
+      deleteFromCloudinary(deleted.Image);
     }
 
     return res.status(200).json({

@@ -31,8 +31,57 @@ const uploadToCloudinary = (buffer, folder = 'giangvien_images') => {
   });
 };
 
+/**
+ * Extracts public_id from Cloudinary URL
+ * Example: https://res.cloudinary.com/cloud_name/image/upload/v12345/giangvien_images/sample.jpg
+ * Returns: "giangvien_images/sample"
+ * @param {String} url - Full Cloudinary image URL
+ * @returns {String|null}
+ */
+const getPublicIdFromUrl = (url) => {
+  if (!url || !url.includes('cloudinary.com')) return null;
+  try {
+    const parts = url.split('/upload/');
+    if (parts.length < 2) return null;
+    let path = parts[1]; // e.g. "v1715500000/giangvien_images/abcxyz.jpg" or "giangvien_images/abcxyz.jpg"
+    // Remove version prefix if present (v followed by digits/)
+    path = path.replace(/^v\d+\//, '');
+    // Remove extension
+    const dotIndex = path.lastIndexOf('.');
+    if (dotIndex !== -1) {
+      path = path.substring(0, dotIndex);
+    }
+    return path;
+  } catch (e) {
+    return null;
+  }
+};
+
+/**
+ * Deletes an image from Cloudinary by its URL or public_id
+ * @param {String} imageUrlOrPublicId
+ */
+const deleteFromCloudinary = async (imageUrlOrPublicId) => {
+  if (!imageUrlOrPublicId) return;
+
+  const publicId = imageUrlOrPublicId.startsWith('http')
+      ? getPublicIdFromUrl(imageUrlOrPublicId)
+      : imageUrlOrPublicId;
+
+  if (!publicId) return;
+
+  try {
+    const result = await cloudinary.uploader.destroy(publicId);
+    console.log(`[Cloudinary] Đã xóa ảnh cũ thành công (${publicId}):`, result);
+    return result;
+  } catch (error) {
+    console.error(`[Cloudinary] Lỗi khi xóa ảnh (${publicId}):`, error.message);
+  }
+};
+
 module.exports = {
   cloudinary,
   uploadToCloudinary,
+  deleteFromCloudinary,
+  getPublicIdFromUrl,
 };
-

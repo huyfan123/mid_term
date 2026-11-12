@@ -1,16 +1,5 @@
 const mongoose = require('mongoose');
 
-/**
- * STRICT SCHEMA REQUIREMENT:
- * Collection name: GiangVien
- * Database name: QLHocPhan
- * Must ONLY contain the 4 fields below:
- * - IDGV (String)
- * - Fullname (String)
- * - Image (String)
- * - SumClass (Number)
- * Timestamps and versionKey (__v) are strictly disabled.
- */
 const GiangVienSchema = new mongoose.Schema(
   {
     IDGV: {
@@ -41,4 +30,3 @@ const GiangVienSchema = new mongoose.Schema(
 );
 
 module.exports = mongoose.model('GiangVien', GiangVienSchema);
-

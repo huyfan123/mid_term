@@ -1,0 +1,99 @@
+# ==========================================
+# Miscellaneous & OS
+# ==========================================
+*.class
+*.log
+*.pyc
+*.swp
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+Desktop.ini
+.atom/
+.build/
+.buildlog/
+.history
+.svn/
+.swiftpm/
+migrate_working_dir/
+
+# ==========================================
+# Environment Variables & Secrets (CRITICAL)
+# ==========================================
+# Ignore all .env files containing sensitive database passwords & API keys
+*.env
+*.env.*
+# But track example templates for instructions
+!.env.example
+!server/.env.example
+
+# ==========================================
+# Node.js / Backend (server/)
+# ==========================================
+node_modules/
+**/node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+
+# ==========================================
+# IDEs & Editors
+# ==========================================
+*.iml
+*.ipr
+*.iws
+.idea/
+.vscode/
+
+# ==========================================
+# Flutter / Dart / Pub
+# ==========================================
+**/doc/api/
+**/ios/Flutter/.last_build_id
+.dart_tool/
+.flutter-plugins-dependencies
+.flutter-plugins
+.pub-cache/
+.pub/
+/build/
+build/
+/coverage/
+.packages
+
+# Android Studio & Gradle
+.gradle/
+**/android/.gradle/
+android/local.properties
+**/local.properties
+/android/app/debug
+/android/app/profile
+/android/app/release
+
+# Keystores and Certificates
+*.keystore
+*.jks
+key.properties
+
+# Build Outputs (APK / App Bundle)
+*.apk
+*.aab
+
+# iOS / macOS build outputs
+**/ios/Flutter/Generated.xcconfig
+**/ios/Flutter/flutter_export_environment.sh
+**/ios/Flutter/ephemeral/
+**/ios/Runner/GeneratedPluginRegistrant.*
+**/macos/Flutter/ephemeral/
+**/macos/Flutter/GeneratedPluginRegistrant.*
+
+# Symbolication & Obfuscation
+app.*.symbols
+app.*.map.json
+
+# Widget Preview
+.widget_preview/
